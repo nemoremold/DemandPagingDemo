@@ -11,6 +11,7 @@ namespace Icebox
     {
         private int[] _hashmap;
         private int _pagingFault;
+        private int _nowIndex;
         private int _numberOfPages;
         private int _numberOfInstructionsInEachPage;
         private int _numberOfInstructions;
@@ -30,6 +31,7 @@ namespace Icebox
         public void operateLeastRecentlyUsedAlgorithm(Page page, ref Memory memory)
         {
             int memoryUsed = 0;
+            _nowIndex = 0;
             for (int i = 0; i < _numberOfInstructions; ++i)
             {
                 _hashmap[i] = -1;
@@ -39,6 +41,7 @@ namespace Icebox
             {
                 for (int j = 0; j < _numberOfInstructionsInEachPage; ++j)
                 {
+                    ++_nowIndex;
                     if (_hashmap[page.getInstruction(i, j)] != -1)
                     {
                         _hashmap[page.getInstruction(i, j)] = i * j;
@@ -78,6 +81,16 @@ namespace Icebox
             }
             Array.Sort(order, (x, y) => _hashmap[temp.readMemory(x).getInstruction()].CompareTo(_hashmap[temp.readMemory(y).getInstruction()]));
             memory.sort(size, order);
+        }
+
+        public int getPagingFaults()
+        {
+            return _pagingFault;
+        }
+
+        public int getNowIndex()
+        {
+            return _nowIndex;
         }
     }
 }
