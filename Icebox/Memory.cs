@@ -75,5 +75,20 @@ namespace Icebox
                 _memoryBlocks[memoryToBeWritten] = block;
             }
         }
+
+        public void sort(int size, int[] order)
+        {
+            MemoryBlock[] temp;
+            temp = new MemoryBlock[size];
+            for(int i = 0; i < size; ++i)
+            {
+                temp[i] = readMemory(order[i]);
+            }
+            for(int i = 0; i < size; ++i)
+            {
+                _memoryBlocks[i] = temp[i];
+                _memoryBlocks[i].setBlockIndex(i);
+            }
+        }
     }
 }

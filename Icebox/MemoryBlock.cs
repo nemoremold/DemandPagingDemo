@@ -13,6 +13,13 @@ namespace Icebox
         private int _Instruction;
         private int _blockIndex;
 
+        public MemoryBlock(int i, int j, int p)
+        {
+            _pageIndex = i;
+            _instructionIndex = j;
+            _Instruction = p;
+        }
+
         public MemoryBlock(int i, int j, int p, int k)
         {
             _pageIndex = i;
@@ -39,6 +46,11 @@ namespace Icebox
         public int getBlockIndex()
         {
             return _blockIndex;
+        }
+
+        public void setBlockIndex(int blockIndex)
+        {
+            _blockIndex = blockIndex;
         }
     }
 }

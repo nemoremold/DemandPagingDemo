@@ -108,5 +108,18 @@ namespace Icebox
                 }
             }
         }
+
+        public int getInstruction(int page, int instruction)
+        {
+            if (page >= _numberOfPages || instruction >= _numberOfInstructionsInEachPage)
+            {
+                Exception excep = new Exception("Invalid address of instruction.");
+                throw excep;
+            }
+            else
+            {
+                return _page[page, instruction];
+            }
+        }
     }
 }
