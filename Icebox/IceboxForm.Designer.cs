@@ -1,4 +1,11 @@
-﻿namespace Icebox
+﻿//
+//  IceboxForm.Designer.cs
+//  Icebox
+//
+//  Created by Emoin Lam on 24/05/2017.
+//  Copyright © 2017 Emoin Lam. All rights reserved.
+//
+namespace Icebox
 {
     partial class IceboxForm
     {
@@ -133,11 +140,11 @@
             }
             this.Controls.Add(slowDownButton);
             this.Name = "IceboxForm";
-            this.Text = "Icebox";
+            this.Text = "Icebox Request Paging Storage Management Simulator with LRU Alpha";
             this.ResumeLayout(false);
             this.PerformLayout();
             this.BackColor = System.Drawing.Color.Gray;
-
+            this.Icon = new System.Drawing.Icon("1.ico");
         }
 
         #endregion
