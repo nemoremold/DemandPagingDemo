@@ -17,6 +17,7 @@ namespace Icebox
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new IceboxForm());
+            Environment.Exit(0);
         }
     }
 }

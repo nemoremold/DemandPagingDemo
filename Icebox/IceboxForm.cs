@@ -35,12 +35,26 @@ namespace Icebox
         {
             try
             {
-                for (;;)
+                while (true)
                 {
-                    double pagingFaultRate = 1.0 * pagingController.getPagingFaults() / pagingController.getNowIndex() * 100;
-                    labels[0].Text = "Paging Fault Rate: " + pagingFaultRate.ToString() + '%';
-                    double process = pagingController.getNowIndex() * 1.0 / criticalData[0] / criticalData[1] * 100;
-                    labels[1].Text = "Process: " + process.ToString() + '%';
+                    if(pagingController != null)
+                    {
+                        double pagingFaultRate = 1.0 * pagingController.getPagingFaults() / pagingController.getNowIndex() * 100;
+                        labels[0].Text = "Paging Fault Rate: " + pagingFaultRate.ToString() + '%';
+                        double process = pagingController.getNowIndex() * 1.0 / criticalData[0] / criticalData[1] * 100;
+                        labels[1].Text = "Process: " + process.ToString() + '%';
+
+                        for (int i = 0; i < criticalData[2]; ++i)
+                        {
+                            MemoryBlock tempBlock = memory.readMemory(i);
+                            if (tempBlock != null && pictureBoxes[i]　!= null)
+                            {
+                                pictureBoxes[i].Text = "Instruction: " + tempBlock.getInstruction().ToString();
+                                pictureBoxes[i].BackColor = Color.AliceBlue;
+                            }
+                        }
+                    }
+                    
                 }
             }
             catch (Exception excep)
@@ -59,7 +73,8 @@ namespace Icebox
             {
                 textBoxes[i].Text = criticalData[i].ToString();
             }
-            operate();
+            createMemoryBlocks();
+            //operate();
         }
 
         private void operate()
@@ -67,10 +82,44 @@ namespace Icebox
             page = new Page(criticalData[0], criticalData[1]);
             memory = new Memory(criticalData[2]);
             pagingController = new PagingController(criticalData[0], criticalData[1], criticalData[2]);
+            pagingController.setSlowingStatus(_slow);
             pagingController.operateLeastRecentlyUsedAlgorithm(page, ref memory);
 
             buttons[0].Text = "Run";
             enableInput();
+        }
+
+        void createMemoryBlocks()
+        {
+            if (this.pictureBoxes != null)
+            {
+                for (int i = 0; i < pictureBoxes.GetLength(0); ++i)
+                {
+                    this.Controls.Remove(pictureBoxes[i]);
+                    //pictureBoxes[i].Dispose();
+                    /*foreach (Control item in this.Controls)
+                    {
+                        if (item is PictureBox && item.Name.Equals(pictureBoxes[i].Name))
+                        {
+                            this.Controls.Remove(item);
+                        }
+                    }*/
+                    pictureBoxes[i] = null;
+                }
+            }
+            int rate = 900 / criticalData[2];
+            this.pictureBoxes = new System.Windows.Forms.Label[criticalData[2]];
+            for (int i = 0; i < criticalData[2]; ++i)
+            {
+                this.pictureBoxes[i] = new System.Windows.Forms.Label();
+                this.pictureBoxes[i].Location = new Point(220 + i * rate, 50);
+                this.pictureBoxes[i].Text = "MemoryBlock" + i.ToString();
+                this.pictureBoxes[i].Name = "MemoryBlock" + i.ToString();
+                this.pictureBoxes[i].Size = new System.Drawing.Size((int)(rate * 0.9), 110);
+                this.pictureBoxes[i].BackColor = System.Drawing.Color.White;
+                this.Controls.Add(pictureBoxes[i]);
+                this.pictureBoxes[i].BringToFront();
+            }
         }
 
         private void enableInput()
@@ -91,6 +140,16 @@ namespace Icebox
 
         private void confirmButtonClick(object sender, EventArgs e)
         {
+            if (textBoxes[0].Text.Length + textBoxes[1].Text.Length > 8)
+            {
+                MessageBox.Show("The data is too big to analyse in a short time(Number of pages times number of instructions in each page should not exceed 99999999).");
+                return;
+            }
+            if (Convert.ToInt32(textBoxes[2].Text) > 32)
+            {
+                MessageBox.Show("Too many memory blocks are placed(No more than 32 blocks is admitted).");
+                return;
+            }
             if (((Button)sender).Text == "Run")
             {
                 disableInput();
@@ -99,6 +158,7 @@ namespace Icebox
                     criticalData[i] = Convert.ToInt32(textBoxes[i].Text);
                 }
                 buttons[0].Text = "Pause";
+                createMemoryBlocks();
                 operation = new Thread(new ThreadStart(operate));
                 operation.Start();
             }
@@ -126,6 +186,24 @@ namespace Icebox
                 operation.Abort();
                 buttons[0].Text = "Run";
                 enableInput();
+            }
+        }
+
+        private void slowDownButtonClick(object sender, EventArgs e)
+        {
+            if (((Button)sender).Text == "Slowdown")
+            {
+                _slow = true;
+                slowDownButton.Text = "Speedup";
+            }
+            else
+            {
+                _slow = false;
+                slowDownButton.Text = "Slowdown";
+            }
+            if (pagingController != null)
+            {
+                pagingController.setSlowingStatus(_slow);
             }
         }
 

@@ -18,8 +18,6 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
-            System.Environment.Exit(0);
-            UIController.Abort();
         }
 
         #region Windows 窗体设计器生成的代码
@@ -31,9 +29,11 @@
         private void InitializeComponent()
         {
             int tabIndex = 0;
+            this.pictureBoxes = null;
             this.textBoxes = new System.Windows.Forms.TextBox[3];
             this.buttons = new System.Windows.Forms.Button[2];
-            this.labels = new System.Windows.Forms.Label[4];
+            this.labels = new System.Windows.Forms.Label[5];
+            this.slowDownButton = new System.Windows.Forms.Button();
             for (int i = 0; i < 3; ++i)
             {
                 textBoxes[i] = new System.Windows.Forms.TextBox();
@@ -42,7 +42,7 @@
             {
                 buttons[i] = new System.Windows.Forms.Button();
             }
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < 5; ++i)
             {
                 labels[i] = new System.Windows.Forms.Label();
             }
@@ -53,7 +53,7 @@
             // 
             for (int i = 0; i < 3; ++i)
             {
-                this.textBoxes[i].Location = new System.Drawing.Point(100, 60 + i * 60);
+                this.textBoxes[i].Location = new System.Drawing.Point(100, 40 + i * 70);
                 this.textBoxes[i].Name = "TestTextBox" + i.ToString();
                 this.textBoxes[i].Text = "TestTextBox" + i.ToString();
                 this.textBoxes[i].Size = new System.Drawing.Size(100, 25);
@@ -69,7 +69,7 @@
                 this.buttons[i].Name = "TEST";
                 this.buttons[i].Text = "TEST";
                 this.buttons[i].TabIndex = tabIndex++;
-                this.buttons[i].Size = new System.Drawing.Size(50, 50);
+                this.buttons[i].Size = new System.Drawing.Size(60, 50);
             }
             this.buttons[0].Text = "Run";
             this.buttons[1].Text = "Stop";
@@ -78,20 +78,47 @@
             //
             // labels
             //
-            this.labels[0].Location = new System.Drawing.Point(30,220);
+            this.labels[0].Location = new System.Drawing.Point(1200,220);
             this.labels[0].Name = "pagingFaultRate";
             this.labels[0].Text = "Paging Fault Rate:";
             this.labels[0].Size = new System.Drawing.Size(2000, 400);
-            this.labels[1].Location = new System.Drawing.Point(30, 30);
+            this.labels[0].BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+            this.labels[1].Location = new System.Drawing.Point(780, 20);
             this.labels[1].Name = "procedure";
             this.labels[1].Text = "Process:";
             this.labels[1].Size = new System.Drawing.Size(2000, 400);
+            this.labels[1].BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+            this.labels[2].Location = new System.Drawing.Point(100, 20);
+            this.labels[2].Name = "Number of pages";
+            this.labels[2].Text = "Number of pages:";
+            this.labels[2].Size = new System.Drawing.Size(150, 20);
+            this.labels[2].BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+            this.labels[3].Location = new System.Drawing.Point(100, 75);
+            this.labels[3].Name = "Number of instructions in each page";
+            this.labels[3].Text = "Number of instructions in each page:";
+            this.labels[3].Size = new System.Drawing.Size(190, 50);
+            this.labels[3].BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+            this.labels[4].Location = new System.Drawing.Point(100, 145);
+            this.labels[4].Name = "Number of memory blocks";
+            this.labels[4].Text = "Number of memory blocks:";
+            this.labels[4].Size = new System.Drawing.Size(170, 100);
+            this.labels[4].BackColor = System.Drawing.Color.FromArgb(0, 0, 0, 0);
+            //
+            // SlowDownButton
+            //
+            this.slowDownButton.Location = new System.Drawing.Point(700, 10);
+            this.slowDownButton.Name = "SlowDownButton";
+            this.slowDownButton.Text = "Slowdown";
+            this.slowDownButton.TabIndex = tabIndex++;
+            this.slowDownButton.Size = new System.Drawing.Size(70, 50);
+            this.slowDownButton.Click += new System.EventHandler(this.slowDownButtonClick);
+            _slow = false;
             //
             // IceboxForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(682, 250);
+            this.ClientSize = new System.Drawing.Size(1920, 250);
             for (int i = 0; i < 3; ++i)
             {
                 this.Controls.Add(textBoxes[i]);
@@ -100,22 +127,26 @@
             {
                 this.Controls.Add(buttons[i]);
             }
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < 5; ++i)
             {
                 this.Controls.Add(labels[i]);
             }
+            this.Controls.Add(slowDownButton);
             this.Name = "IceboxForm";
-            this.Text = "Form1";
+            this.Text = "Icebox";
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        
+
+        private System.Windows.Forms.Label[] pictureBoxes;
         private System.Windows.Forms.TextBox[] textBoxes;
         private System.Windows.Forms.Button[] buttons;
         private System.Windows.Forms.Label[] labels;
+        private System.Windows.Forms.Button slowDownButton;
+        private bool _slow;
     }
 }
 

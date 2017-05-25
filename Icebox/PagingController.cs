@@ -16,6 +16,7 @@ namespace Icebox
         private int _numberOfInstructionsInEachPage;
         private int _numberOfInstructions;
         private int _memorySize;
+        private bool _slowDown;
 
         public PagingController(int pageCnt, int instrCnt, int size)
         {
@@ -26,6 +27,7 @@ namespace Icebox
 
             _hashmap = new int[_numberOfInstructions];
             _pagingFault = 0;
+            _slowDown = false;
         }
 
         public void operateLeastRecentlyUsedAlgorithm(Page page, ref Memory memory)
@@ -41,6 +43,10 @@ namespace Icebox
             {
                 for (int j = 0; j < _numberOfInstructionsInEachPage; ++j)
                 {
+                    if (_slowDown)
+                    {
+                        for (int k = 0; k < 50000000; ++k) ;
+                    }
                     ++_nowIndex;
                     if (_hashmap[page.getInstruction(i, j)] != -1)
                     {
@@ -91,6 +97,11 @@ namespace Icebox
         public int getNowIndex()
         {
             return _nowIndex;
+        }
+
+        public void setSlowingStatus(bool status)
+        {
+            _slowDown = status;
         }
     }
 }
