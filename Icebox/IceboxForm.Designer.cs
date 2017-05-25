@@ -106,11 +106,11 @@
             //
             // SlowDownButton
             //
-            this.slowDownButton.Location = new System.Drawing.Point(700, 10);
+            this.slowDownButton.Location = new System.Drawing.Point(600, 14);
             this.slowDownButton.Name = "SlowDownButton";
             this.slowDownButton.Text = "Slowdown";
             this.slowDownButton.TabIndex = tabIndex++;
-            this.slowDownButton.Size = new System.Drawing.Size(70, 50);
+            this.slowDownButton.Size = new System.Drawing.Size(170, 30);
             this.slowDownButton.Click += new System.EventHandler(this.slowDownButtonClick);
             _slow = false;
             //
@@ -136,6 +136,7 @@
             this.Text = "Icebox";
             this.ResumeLayout(false);
             this.PerformLayout();
+            this.BackColor = System.Drawing.Color.Gray;
 
         }
 

@@ -50,7 +50,7 @@ namespace Icebox
                             if (tempBlock != null && pictureBoxes[i]　!= null)
                             {
                                 pictureBoxes[i].Text = "Instruction: " + tempBlock.getInstruction().ToString();
-                                pictureBoxes[i].BackColor = Color.AliceBlue;
+                                pictureBoxes[i].BackColor = Color.DarkGray;
                             }
                         }
                     }
